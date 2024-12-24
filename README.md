@@ -14,7 +14,8 @@ This will start the development server, usually accessible at http://127.0.0.1:5
 API Endpoints: GET /tasks:
 
 Retrieves a list of all tasks in JSON format.
-Response: <img width="1440" alt="Screenshot 1446-06-22 at 11 42 21 PM" src="https://github.com/user-attachments/assets/42c13fe4-327d-4f21-8745-89e46e7da1c9" />
+Response: <img width="1440" alt="Screenshot 1446-06-22 at 11 42 21 PM" src="https://github.com/user-attachments/assets/e1cbe54a-b459-4048-95bf-4eace33f0e4f" />
+
 
 
 Second Task: Fetching Comments from JSONPlaceholder API
