@@ -1,0 +1,77 @@
+import json
+from tabulate import tabulate
+
+# Function to load books from a JSON file
+def load_books(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return []  # Return an empty list if the file doesn't exist
+    except json.JSONDecodeError:
+        print("Error: Invalid JSON file format.")
+        return []
+
+# Function to save books to a JSON file
+def save_books(file_path, books):
+    with open(file_path, 'w') as file:
+        json.dump(books, file, indent=4)
+
+# Function to display books in a table format
+def display_books(books):
+    if not books:
+        print("No books available.")
+    else:
+        table = [[book['title'], book['author'], book['year'], book['genre']] for book in books]
+        headers = ["Title", "Author", "Year", "Genre"]
+        print(tabulate(table, headers=headers, tablefmt="grid"))
+
+# Function to add a new book
+def add_book():
+    title = input("Enter the book's title: ")
+    author = input("Enter the author's name: ")
+    year = input("Enter the publication year: ")
+    genre = input("Enter the genre: ")
+
+    # Validate year input
+    while not year.isdigit():
+        print("Invalid year. Please enter a numeric value.")
+        year = input("Enter the publication year: ")
+
+    return {
+        "title": title,
+        "author": author,
+        "year": int(year),
+        "genre": genre
+    }
+
+# Main function for the JSON book 
+def main():
+    file_path = "JSON.book"
+
+    # Load existing books
+    books = load_books(file_path)
+
+    while True:
+        print("\n--- Book Manager ---")
+        print("1. Display all books")
+        print("2. Add a new book")
+        print("3. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            display_books(books)
+        elif choice == "2":
+            new_book = add_book()
+            books.append(new_book)
+            save_books(file_path, books)
+            print("Book added successfully!")
+        elif choice == "3":
+            print("Exiting the program. Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,45 @@
+class Car:
+    def __init__(self, make, model, year, mileage):
+        #Initialize a Car object with make, model, year, and mileage.
+        self.make = make
+        self.model = model
+        self.year = year
+        self.mileage = mileage
+
+        # method that performs some action on the object.
+    def display_details(self):
+         print(f"Make: {self.make}")
+         print(f"Model: {self.model}")
+         print(f"Year: {self.year}")
+         print(f"Mileage: {self.mileage}")
+
+        # Updates the car's mileage.
+        # Args:new_mileage: The new mileage of the car.
+    def update_mileage(self, new_mileage):
+        if new_mileage >= self.mileage:
+            self.mileage = new_mileage
+            print(f"Mileage updated to {self.mileage} miles.")
+        else:
+            print("Error: Mileage cannot be decreased.")
+
+    def is_old(self):
+         #Checks if the car is considered "old" (more than 10 years old).
+         #we Returns: true if the car is old, False otherwise.
+        current_year = 2024 
+        return current_year - self.year > 10
+
+# Example Usage:
+if __name__ == "__main__":
+    my_car = Car("Kia", "Sorento", 2019, 35000)
+    my_car.display_details()
+
+    # Update mileage
+    my_car.update_mileage(125000)
+    my_car.update_mileage(115000)  # Invalid update
+
+    # Check if the car is old
+    if my_car.is_old():
+        print("The car is considered old.")
+    else:
+        print("The car is not considered old.")
+

@@ -1,0 +1,56 @@
+import requests
+import json
+
+# Function to fetch data from the API and save it to a JSON file
+def fetch_and_save_movie_data(api_url, file_name):
+    # Make the GET request to fetch data
+    response = requests.get(api_url)
+
+    # Check if the request was successful
+    if response.status_code == 200:
+        # Deserialize the response JSON
+        data = response.json()
+
+        # Print the raw data to check its structure
+        print("Raw API response:", json.dumps(data, indent=4))
+
+        # Save the data to a JSON file
+        with open(file_name, 'w') as json_file:
+            json.dump(data, json_file, indent=4)
+        
+        print("Data fetched and saved to", file_name)
+    else:
+        print(f"Error: Unable to fetch data. Status code {response.status_code}")
+
+# Function to read and display data from a JSON file
+def read_and_display_movie_data(file_name):
+    try:
+        # Open and read the JSON file
+        with open(file_name, 'r') as json_file:
+            data = json.load(json_file)
+        
+        # Print the structure of the data
+        print("Loaded data:", json.dumps(data, indent=4))
+
+        # Display the data (adjust based on the correct keys)
+        print(f"Title: {data.get('title', 'N/A')}")
+        print(f"Year: {data.get('year', 'N/A')}")
+        print(f"Genre: {data.get('genre', 'N/A')}")
+        print(f"Director: {data.get('director', 'N/A')}")
+        print(f"Plot: {data.get('plot', 'N/A')}")
+        print(f"IMDB Rating: {data.get('rating', 'N/A')}")
+        
+    except FileNotFoundError:
+        print(f"Error: The file '{file_name}' does not exist.")
+
+# API URL for The Shawshank Redemption (Movie ID 1)
+api_url = "https://dummyapi.online/api/movies/1"
+
+# File name to save the data
+file_name = "shawshank_redemption_data.json"
+
+# Fetch and save the movie data
+fetch_and_save_movie_data(api_url, file_name)
+
+# Read and display the movie data from the saved JSON file
+read_and_display_movie_data(file_name)

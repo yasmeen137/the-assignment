@@ -1,0 +1,33 @@
+# the Base class
+class Animal:
+    def eat(self):
+        print("animal is eating.")
+
+    def sleep(self):
+        print("animal is sleeping.")
+
+# the first Subclass Dog inheriting from Animal
+class Dog(Animal):
+    def bark(self):
+        print("woof woof woof woof")
+
+# the second Subclass Bird inheriting from Animal
+class Bird(Animal):
+    def fly(self):
+        print("The bird is flying in the sky")
+
+# Testing classes
+if __name__ == "__main__":
+    # Create an instance of Dog
+    the_dog = Dog() # Create objects
+    print("Dog's behavior:")
+    the_dog.eat()
+    the_dog.sleep()
+    the_dog.bark()
+
+    print("\nBird's behavior:")
+    # Create an instance of Bird
+    the_bird = Bird() # Create objects
+    the_bird.eat()
+    the_bird.sleep()
+    the_bird.fly()

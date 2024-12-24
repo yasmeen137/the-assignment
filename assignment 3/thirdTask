@@ -1,0 +1,63 @@
+import requests
+
+def fetch_comments(post_id):
+    
+    #Fetches comments for a specific post using the JSONPlaceholder API with improved error handling.
+    
+    base_url = "https://jsonplaceholder.typicode.com/comments"
+    params = {"postId": post_id}  # Pass the post ID as a query parameter
+    
+    try:
+        # Make a GET request to the API
+        response = requests.get(base_url, params=params, timeout=10)  # Adding a timeout
+        response.raise_for_status()  # Raise HTTPError for bad responses (4xx and 5xx)
+        
+        # Parse the JSON response
+        comments = response.json()
+        
+        # Check if the response contains data
+        if not comments:
+            print(f"No comments found for post ID {post_id}.")
+            return
+        
+        # Display the comments
+        display_comments(comments)
+
+    except requests.exceptions.HTTPError as http_err:
+        print(f"HTTP error occurred: {http_err}")
+    except requests.exceptions.ConnectionError:
+        print("Connection error. Please check your internet connection or try again later.")
+    except requests.exceptions.Timeout:
+        print("The request timed out. Please try again later.")
+    except requests.exceptions.RequestException as req_err:
+        print(f"An error occurred: {req_err}")
+    except ValueError:
+        print("Error parsing the response. Please ensure the API is returning valid data.")
+
+def display_comments(comments):
+    
+    #Displays the fetched comments in a formatted way.
+    
+    print("\nComments for Post:")
+    print("-------------------")
+    for comment in comments:
+        print(f"ID: {comment['id']}")
+        print(f"Name: {comment['name']}")
+        print(f"Email: {comment['email']}")
+        print(f"Comment: {comment['body']}")
+        print("-" * 40)
+#testing
+if __name__ == "__main__":
+    try:
+        # Prompt the user for the post ID
+        post_id = input("Enter the Post ID (e.g., 1): ")
+        
+        # Validate the input
+        if not post_id.isdigit():
+            print("Invalid input. Please enter a numeric Post ID.")
+        else:
+            fetch_comments(post_id)
+    except KeyboardInterrupt:
+        print("\nProgram interrupted by the user.")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")

@@ -1,0 +1,19 @@
+import json
+
+# Function to convert a Python dictionary to a JSON string and back
+def dict_to_json_and_back(py_dict):
+    # Convert Python dictionary to a JSON string
+    json_string = json.dumps(py_dict)
+    print(f"JSON string: {json_string}")
+    
+    # Convert JSON string back to a Python dictionary
+    new_dict = json.loads(json_string)
+    print(f"Converted back to dictionary: {new_dict}")
+    
+    return json_string, new_dict
+
+# Sample dictionary
+py_dict = {'name': 'ail', 'age': 30, 'city': 'ryiadh'}
+
+# Call the function
+json_string, new_dict = dict_to_json_and_back(py_dict)

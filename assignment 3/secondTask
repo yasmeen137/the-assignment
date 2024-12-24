@@ -1,0 +1,31 @@
+import requests #the library for get
+
+def fetch_comments(post_id):
+    #Fetches comments for a specific post from the JSONPlaceholder API.
+    base_url = f"https://jsonplaceholder.typicode.com/posts/1/comments"
+    
+    try:
+        response = requests.get(base_url) #Sends a GET request to the specified URL to retrieve data from the API
+        response.raise_for_status()  # Raise HTTPError for bad responses (4xx and 5xx)
+        comments = response.json() #Parses the JSON response into a Python dictionary or list (in this case, a list of comments)
+        display_comments(comments) #Calls another function to format and print the comments.
+    except requests.exceptions.HTTPError as http_err:
+        print(f"HTTP error occurred: {http_err}")
+    except requests.exceptions.RequestException as req_err:
+        print(f"Request error occurred: {req_err}")
+
+def display_comments(comments):
+    #Displays the fetched comments in a formatted way.
+    print("\nComments for Post:")
+
+    print("-------------------")
+    for comment in comments:
+        print(f"ID: {comment['id']}")
+        print(f"Name: {comment['name']}")
+        print(f"Email: {comment['email']}")
+        print(f"Comment: {comment['body']}")
+        print("-" * 40)
+ #testing
+if __name__ == "__main__":
+    post_id = input("Enter the Post ID (e.g., 1): ")
+    fetch_comments(post_id)

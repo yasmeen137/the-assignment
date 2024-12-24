@@ -1,0 +1,67 @@
+# Define set to store student IDs
+student_ids = set()
+
+def add_student_id():
+    #the process of Add student ID to the set
+    student_id = input("Enter the student ID to add: ") # Ask user for the student ID to add
+    if student_id in student_ids: # Check if the student ID already exists
+        print("This student ID already exists.")
+    else:
+        student_ids.add(student_id)
+        print(f"Student ID {student_id} added.")
+
+def remove_student_id():
+    #Remove a student ID from the set.
+    student_id = input("Enter the student ID to remove: ")   # Ask user for the student ID to remove
+    if student_id in student_ids:    # Check if the student ID is in the set
+        student_ids.remove(student_id)
+        print(f"Student ID {student_id} removed.") 
+    else:
+        print("Student ID not found.")
+
+def check_student_id():
+    #Check if a specific student ID is in the set.
+    student_id = input("Enter the student ID to check: ")  # Ask user for the student ID to check
+    if student_id in student_ids:
+        print(f"Student ID {student_id} exists.") 
+    else:
+        print(f"Student ID {student_id} not found.")
+
+def display_student_ids():
+    #Display all student IDs in the set.
+    print("\nStudent IDs:")
+    if student_ids:
+        for student_id in student_ids:
+            print(student_id)
+    else:
+        print("No student IDs available.")
+
+def main():
+    #Main function to run the program.
+    while True:
+        print("\nStudent ID Management Menu:")
+        print("1. Add a student ID")
+        print("2. Remove a student ID")
+        print("3. Check if a student ID exists")
+        print("4. Display all student IDs")
+        print("5. Exit")
+
+        choice = input("Enter your choice (1-5): ")
+
+        if choice == '1':
+            add_student_id()
+        elif choice == '2':
+            remove_student_id()
+        elif choice == '3':
+            check_student_id()
+        elif choice == '4':
+            display_student_ids()
+        elif choice == '5':
+            print("Exiting the program.")
+            break
+        else:
+            print("Invalid choice, please try again.")
+
+# Run the program
+if __name__ == "__main__":
+    main()
