@@ -1,0 +1,23 @@
+// Function that formats user details using template literals
+// ES6+ Feature: Arrow Function
+// This is a concise way to declare a function. It uses the `=>` syntax and does not have its own `this` context.
+const formatUserDetails = (name, age, occupation) => {
+    // ES6+ Feature: Template Literals
+   
+    return `Hello, my name is ${name}. I am ${age} years old and I work as a ${occupation}.`;
+  };
+  // Example usage
+  // ES6+ Feature: const
+  // `const` declares variables that cannot be reassigned, ensuring their values remain constant.
+  const userName = "Sara";
+  const userAge = 23;
+  const userOccupation = "Software Developer";
+  
+  
+  // The function is called with the values of `userName`, `userAge`, and `userOccupation` passed as arguments.
+  const userDetails = formatUserDetails(userName, userAge, userOccupation);
+  
+  
+  // The formatted string returned by the function is logged to the console.
+  console.log(userDetails);
+  
