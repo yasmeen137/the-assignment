@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Background Color</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            transition: background-color 0.5s;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        select, button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 5px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Change Background Color</h1>
+        <label for="colorSelector">Select a Color:</label>
+        <select id="colorSelector">
+            <option value="white">White</option>
+            <option value="lightblue">Light Blue</option>
+            <option value="lightgreen">Light Green</option>
+            <option value="lightpink">Light Pink</option>
+            <option value="yellow">Yellow</option>
+        </select>
+        <button id="applyColor">Apply Color</button>
+    </div>
+
+    <script>
+        const colorSelector = document.getElementById('colorSelector');
+        const applyColorButton = document.getElementById('applyColor');
+
+        // Introduced bug: Incorrect method name on button event listener
+        applyColorButton.addEventListener('click', () => {
+    const selectedValue = selectedcolor.value; // Corrected reference
+    document.body.style.backgroundColor = selectedValue;
+});
+
+    </script>
+</body>
+</html>
