@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  backend:
+    build: .
+    ports:
+      - "3000:5003"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=${DATABASE_URL}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
+    depends_on: []
+
+  db:
+    image: postgres:17
+    restart: always
+    container_name: integration-testing-prisma
+    environment:
+      POSTGRES_USER: prisma 
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: tests
+    ports:
+      - "5432:5432"

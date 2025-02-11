@@ -1,0 +1,80 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  relationMode = "prisma" // Required for Neon
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  username  String    @unique
+  email     String    @unique
+  password  String
+  role      String    @default("USER")
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  createdCommunities Community[] @relation("CommunityCreator")
+  memberships CommunityMember[]  
+
+  threads    Thread[]
+  comments   Comment[]
+}
+
+model Community {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  description String   @default("")  
+  photoUrl    String?  
+  creatorId   Int
+  creator     User     @relation("CommunityCreator", fields: [creatorId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  members     CommunityMember[]  
+  threads     Thread[]
+}
+
+model CommunityMember {
+  userId      Int
+  communityId Int
+  joinedAt    DateTime @default(now())
+
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  community   Community  @relation(fields: [communityId], references: [id], onDelete: Cascade)
+
+  @@id([userId, communityId]) 
+}
+
+model Thread {
+  id          Int      @id @default(autoincrement())
+  title       String
+  content     String
+  description String   @default("")  
+  authorId    Int
+  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  communityId Int
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  comments    Comment[]
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  authorId  Int
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  threadId  Int
+  thread    Thread   @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
