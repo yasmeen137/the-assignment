@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "nodemon src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js",
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down",
     "test": "dotenv -e .env.test -- sh -c 'NODE_ENV=test npm run docker:up && npx prisma migrate deploy && jest -i'"

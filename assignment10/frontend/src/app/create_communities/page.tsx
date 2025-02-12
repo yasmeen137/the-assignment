@@ -1,3 +1,5 @@
+
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -62,19 +64,19 @@ export default function CreateCommunityPage() {
     }
   };
 
-  const handleCreateCommunity = async (data: { name: string; description: string; photo?: any }) => {
+  const handleCreateCommunity = async (data: { name: string; description: string; photo?: File }) => {
     if (!token) {
       setSubmissionError("You must be logged in to create a community.");
       return;
     }
-
+  
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("description", data.description);
     if (data.photo) {
       formData.append("photo", data.photo);
     }
-    
+  
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/communities`, {
         method: "POST",
@@ -84,23 +86,20 @@ export default function CreateCommunityPage() {
         },
         credentials: "include",
       });
-
+  
       if (!response.ok) {
         const errorMessage = await response.text();
         throw new Error(errorMessage || "Failed to create community");
       }
-
+  
       router.push("/communities");
       router.refresh();
     } catch (error) {
       console.error("Submission error:", error);
-      if (error instanceof Error) {
-        setSubmissionError(error.message);
-      } else {
-        setSubmissionError("An unknown error occurred");
-      }
+      setSubmissionError(error instanceof Error ? error.message : "An unknown error occurred");
     }
   };
+  
 
   return (
     <div className="relative flex items-center justify-center min-h-screen bg-black text-cyan-400 overflow-hidden">

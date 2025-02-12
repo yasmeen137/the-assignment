@@ -25,22 +25,24 @@ export default function ThreadDetails() {
 
   const router = useRouter();
   const params = useParams();
-  const threadId = params?.id;
+  const threadId = params?.id as string | undefined;
 
   useEffect(() => {
     if (!threadId) {
       console.error("⚠️ threadId is undefined! Check your route structure.");
+      setError("Thread ID is missing.");
+      setLoading(false);
       return;
     }
 
-    console.log(" Fetching thread with ID:", threadId);
+    console.log("Fetching thread with ID:", threadId);
 
     const fetchThread = async () => {
       try {
         const token = localStorage.getItem("token");
         const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/threads/${threadId}`;
 
-        console.log(" API URL:", url);
+        console.log("API URL:", url);
 
         const response = await fetch(url, {
           credentials: "include",
@@ -57,9 +59,14 @@ export default function ThreadDetails() {
         const data: Thread = await response.json();
         console.log("API Response:", data);
         setThread(data);
-      } catch (err: any) {
-        console.error(" Error fetching thread details:", err);
-        setError(err.message);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          console.error("Error fetching thread details:", err.message);
+          setError(err.message);
+        } else {
+          console.error("An unknown error occurred while fetching thread details.");
+          setError("An unknown error occurred.");
+        }
       } finally {
         setLoading(false);
       }
@@ -75,10 +82,14 @@ export default function ThreadDetails() {
           throw new Error("Failed to fetch comments");
         }
 
-        const data = await response.json();
+        const data: Comment[] = await response.json();
         setComments(data);
-      } catch (err: any) {
-        console.error("Error fetching comments:", err);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          console.error("Error fetching comments:", err.message);
+        } else {
+          console.error("An unknown error occurred while fetching comments.");
+        }
       }
     };
 
@@ -93,6 +104,7 @@ export default function ThreadDetails() {
     const token = localStorage.getItem("token");
     if (!token) {
       console.error("User is not authenticated.");
+      setCommentLoading(false);
       return;
     }
 
@@ -114,11 +126,15 @@ export default function ThreadDetails() {
         throw new Error("Failed to post comment");
       }
 
-      const newCommentData = await response.json();
+      const newCommentData: Comment = await response.json();
       setComments((prev) => [newCommentData, ...prev]);
       setNewComment("");
-    } catch (error) {
-      console.error("Failed to post comment:", error);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error("Failed to post comment:", err.message);
+      } else {
+        console.error("An unknown error occurred while posting the comment.");
+      }
     } finally {
       setCommentLoading(false);
     }
